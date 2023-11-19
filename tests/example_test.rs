@@ -1,5 +1,5 @@
 #[cfg(test)]
-mod tests {
+mod example_test {
     use std::fs;
     use advent_of_code_2023::aoc::example;
 
