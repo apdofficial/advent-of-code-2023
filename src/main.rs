@@ -1,7 +1,8 @@
 use tokio::main;
 use clap::Parser;
 use reqwest::header::COOKIE;
-use advent_of_code_2023::aoc::{common, day1};
+pub mod aoc;
+use aoc::{common, day1};
 
 #[derive(Parser, Debug)]
 struct Args {
