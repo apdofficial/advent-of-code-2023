@@ -1,6 +1,6 @@
-use tokio::main;
 use clap::Parser;
 use reqwest::header::COOKIE;
+use tokio::main;
 pub mod aoc;
 use aoc::{common, day1};
 
@@ -11,18 +11,20 @@ struct Args {
     #[arg(short, long)]
     day: u8,
     #[arg(short, long)]
-    token: String
+    token: String,
 }
 #[derive(Debug)]
 struct DayResult {
     part1: common::PuzzleResult,
-    part2: common::PuzzleResult
+    part2: common::PuzzleResult,
 }
 
 #[main]
 async fn main() -> Result<(), String> {
-    let cli : Args = Args::parse();
-    let input_data = fetch_input_data(cli.year, cli.day, &cli.token).await.unwrap();
+    let cli: Args = Args::parse();
+    let input_data = fetch_input_data(cli.year, cli.day, &cli.token)
+        .await
+        .unwrap();
     println!("{}", input_data);
 
     if cli.year != 2022 {
@@ -32,9 +34,9 @@ async fn main() -> Result<(), String> {
     let result = match cli.day {
         1 => Ok(DayResult {
             part1: day1::part1(&input_data),
-            part2: day1::part2(&input_data)
+            part2: day1::part2(&input_data),
         }),
-        _ => Err(String::from("invalid day"))
+        _ => Err(String::from("invalid day")),
     }?;
 
     println!("{:?}", result);
@@ -42,13 +44,10 @@ async fn main() -> Result<(), String> {
     Ok(())
 }
 
-async fn fetch_input_data(
-    year: u16,
-    day: u8,
-    session_token: &str
-) -> reqwest::Result<String> {
+async fn fetch_input_data(year: u16, day: u8, session_token: &str) -> reqwest::Result<String> {
     let url = std::format!("https://adventofcode.com/{year}/day/{day}/input");
-    reqwest::Client::new().get(url)
+    reqwest::Client::new()
+        .get(url)
         .header(COOKIE, format!("session={session_token}"))
         .send()
         .await?
