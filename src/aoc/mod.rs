@@ -1,1 +1,2 @@
-pub mod example;
+pub mod common;
+pub mod day1;
