@@ -12,21 +12,6 @@ const NUMBERS: &'static [(&'static str, &'static str)] = &[
     ("nine", "n9e"),
 ];
 
-struct Digits {
-    first: Option<u32>,
-    last: Option<u32>,
-}
-
-impl Digits {
-    fn to_number(&self) -> Option<u32> {
-        if let (Some(a), Some(b)) = (self.first, self.last) {
-            Some(format!("{}{}", a, b).parse::<u32>().unwrap())
-        } else {
-            None
-        }
-    }
-}
-
 pub fn part1(input_data: &str) -> PuzzleResult {
     input_data
         .split('\n')
@@ -37,27 +22,29 @@ pub fn part1(input_data: &str) -> PuzzleResult {
 pub fn part2(input_data: &str) -> PuzzleResult {
     input_data
         .split('\n')
-        .map(|x| {
+        .filter_map(|x| {
             let mut line: String = x.to_owned();
             NUMBERS.iter().for_each(|(old, new)| {
                 line = line.replace(old, new)
             });
-            line
+            to_number(line.as_ref())
         })
-        .filter_map(|x| to_number(x.as_ref()))
         .sum()
 }
 
 fn to_number(line: &str) -> Option<u32> {
-    line.chars()
-        .fold(Digits { first: None, last: None }, |mut acc, x| {
+    let (first, last) = line.chars()
+        .fold((Option::<u32>::None, Option::<u32>::None), |mut acc, x| {
             if x.is_numeric() {
-                acc.last = x.to_digit(10);
-                if acc.first.is_none() { acc.first = acc.last; }
+                acc.1 = x.to_digit(10);
+                if acc.0.is_none() { acc.0 = acc.1; }
             }
             acc
-        })
-        .to_number()
+        });
+    if let (Some(a), Some(b)) = (first, last) {
+        return Some(format!("{}{}", a, b).parse::<u32>().unwrap())
+    }
+    None
 }
 
 #[cfg(test)]
@@ -69,12 +56,8 @@ mod tests {
     const INPUT_2: &str = "two1nine\neightwothree\nabcone2threexyz\nxtwone3four\n4nineeightseven2\nzoneight234\n7pqrstsixteen";
 
     #[test]
-    fn part1() {
-        assert_eq!(day1::part1(INPUT_1), PuzzleResult::Number(142));
-    }
+    fn part1() { assert_eq!(day1::part1(INPUT_1), PuzzleResult::Number(142)); }
 
     #[test]
-    fn part2() {
-        assert_eq!(day1::part2(INPUT_2), PuzzleResult::Number(281));
-    }
+    fn part2() { assert_eq!(day1::part2(INPUT_2), PuzzleResult::Number(281)); }
 }
