@@ -3,6 +3,7 @@ use reqwest::header::COOKIE;
 use tokio::main;
 pub mod aoc;
 use aoc::{common, day1};
+use crate::aoc::common::PuzzleResult;
 
 #[derive(Parser, Debug)]
 struct Args {
@@ -39,7 +40,6 @@ async fn main() -> Result<(), String> {
                 return Err(input_puzzle_result.err().unwrap());
             }
             let input_puzzle = input_puzzle_result.ok().unwrap();
-            print!("Solving day {}: ", day);
             let result = solve_day(day, &input_puzzle)?;
             println!("{:?}", result);
         }
@@ -60,8 +60,8 @@ fn solve_day(day: u8, input_data: &str) -> Result<DayResult, String> {
     match day {
         1 => Ok(DayResult {
             day,
-            part1: day1::part1(&input_data),
-            part2: day1::part2(&input_data),
+            part1: PuzzleResult::Number(day1::part1(&input_data)),
+            part2: PuzzleResult::Number(day1::part2(&input_data)),
         }),
         _ => Err(String::from("invalid day")),
     }
