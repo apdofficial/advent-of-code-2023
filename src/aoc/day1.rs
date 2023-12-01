@@ -42,7 +42,7 @@ fn to_number(line: &str) -> Option<u32> {
             acc
         });
     if let (Some(a), Some(b)) = (first, last) {
-        return Some(format!("{}{}", a, b).parse::<u32>().unwrap())
+        return Some(a * 10 + b);
     }
     None
 }
