@@ -1,50 +1,39 @@
 use crate::aoc::common::PuzzleResult;
 
-const NUMBERS: &'static [(&'static str, &'static str)] = &[
-    ("one", "o1e"),
-    ("two", "t2o"),
-    ("three", "t3e"),
-    ("four", "f4r"),
-    ("five", "f5e"),
-    ("six", "s6x"),
-    ("seven", "s7n"),
-    ("eight", "e8t"),
-    ("nine", "n9e"),
-];
+const NUMBERS: &'static [&'static str] = &["one", "two", "three", "four", "five", "six", "seven", "eight", "nine"];
 
 pub fn part1(input_data: &str) -> PuzzleResult {
-    input_data
-        .split('\n')
-        .filter_map(to_number)
-        .sum()
+    input_data.split('\n').filter_map(|line| {
+        let mut first: Option<u32> = None;
+        let mut last: Option<u32> = None;
+        for c in line.chars() {
+            if c.is_numeric() {
+                last = c.to_digit(10);
+                if first.is_none() { first = last; }
+            }
+        }
+        first.and_then(|a| last.and_then(|b| Some(a * 10 + b)))
+    }).sum()
 }
 
 pub fn part2(input_data: &str) -> PuzzleResult {
-    input_data
-        .split('\n')
-        .filter_map(|x| {
-            let mut line: String = x.to_owned();
-            NUMBERS.iter().for_each(|(old, new)| {
-                line = line.replace(old, new)
-            });
-            to_number(line.as_ref())
-        })
-        .sum()
-}
-
-fn to_number(line: &str) -> Option<u32> {
-    let (first, last) = line.chars()
-        .fold((Option::<u32>::None, Option::<u32>::None), |mut acc, x| {
-            if x.is_numeric() {
-                acc.1 = x.to_digit(10);
-                if acc.0.is_none() { acc.0 = acc.1; }
+    input_data.split('\n').filter_map(|line| {
+        let mut first: Option<u32> = None;
+        let mut last: Option<u32> = None;
+        for start in 0..line.len() {
+            let mut digit = if line.chars().nth(start)?.is_numeric() {
+                line.chars().nth(start)?.to_digit(10)
+            } else { None };
+            for (i, num) in NUMBERS.iter().enumerate() {
+                if line[start..line.len()].starts_with(num) { digit = Some((i as u32) + 1); }
             }
-            acc
-        });
-    if let (Some(a), Some(b)) = (first, last) {
-        return Some(a * 10 + b);
-    }
-    None
+            if digit.is_some() {
+                last = digit;
+                if first.is_none() { first = last; }
+            }
+        }
+        first.and_then(|a| last.and_then(|b| Some(a * 10 + b)))
+    }).sum()
 }
 
 #[cfg(test)]
