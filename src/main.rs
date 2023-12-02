@@ -73,25 +73,16 @@ fn solve_day(day: u8, input_data: &str) -> Result<DayResult, String> {
 }
 
 async fn fetch_input_data(year: u16, day: u8, session_token: &str) -> Result<String, String> {
-    let response = reqwest::Client::new()
-        .get(std::format!(
-            "https://adventofcode.com/{year}/day/{day}/input"
-        ))
+    let input = reqwest::Client::new()
+        .get(std::format!("https://adventofcode.com/{year}/day/{day}/input"))
         .header(COOKIE, format!("session={session_token}"))
         .send()
+        .await
+        .unwrap()
+        .text()
         .await;
-    if response.is_err() {
-        return Err(format!(
-            "failed to fetch the puzzle input text: {}",
-            response.err().unwrap()
-        ));
-    }
-    let input = response.ok().unwrap().text().await;
     if input.is_err() {
-        return Err(format!(
-            "failed to fetch the puzzle input text: {}",
-            input.err().unwrap()
-        ));
+        return Err(format!("failed to fetch the puzzle input text: {}", input.err().unwrap()));
     }
     let input_text = input.ok().unwrap();
     if input_text == "404 Not Found\n" {
