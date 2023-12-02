@@ -1,7 +1,6 @@
 use clap::Parser;
 use reqwest::header::COOKIE;
 use tokio::main;
-pub mod aoc;
 use aoc::{common, day1, day02};
 use crate::aoc::common::PuzzleResult;
 
