@@ -34,14 +34,14 @@ pub fn part2(input_data: &str) -> u32 {
 
 #[cfg(test)]
 mod tests {
-    use crate::aoc::day1;
+    use crate::aoc::day01;
 
     const INPUT_1: &str = "1abc2\npqr3stu8vwx\na1b2c3d4e5f\ntreb7uchet";
     const INPUT_2: &str = "two1nine\neightwothree\nabcone2threexyz\nxtwone3four\n4nineeightseven2\nzoneight234\n7pqrstsixteen";
 
     #[test]
-    fn part1() { assert_eq!(day1::part1(INPUT_1), 142); }
+    fn part1() { assert_eq!(day01::part1(INPUT_1), 142); }
 
     #[test]
-    fn part2() { assert_eq!(day1::part2(INPUT_2), 281); }
+    fn part2() { assert_eq!(day01::part2(INPUT_2), 281); }
 }

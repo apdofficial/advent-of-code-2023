@@ -2,7 +2,7 @@ use clap::Parser;
 use reqwest::header::COOKIE;
 use tokio::main;
 pub mod aoc;
-use aoc::{day1, day02};
+use aoc::{day01, day02};
 use crate::aoc::common::PuzzleResult;
 
 #[derive(Parser, Debug)]
@@ -60,8 +60,8 @@ fn solve_day(day: u8, input_data: &str) -> Result<DayResult, String> {
     match day {
         1 => Ok(DayResult {
             day,
-            part1: PuzzleResult::Number(day1::part1(&input_data)),
-            part2: PuzzleResult::Number(day1::part2(&input_data)),
+            part1: PuzzleResult::Number(day01::part1(&input_data)),
+            part2: PuzzleResult::Number(day01::part2(&input_data)),
         }),
         2 => Ok(DayResult {
             day,
