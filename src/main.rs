@@ -2,7 +2,8 @@ use clap::Parser;
 use reqwest::header::COOKIE;
 use tokio::main;
 pub mod aoc;
-use aoc::{common, day1};
+use aoc::{day01, day02};
+use crate::aoc::common::PuzzleResult;
 
 #[derive(Parser, Debug)]
 struct Args {
@@ -20,8 +21,8 @@ struct Args {
 #[allow(dead_code)]
 struct DayResult {
     day: u8,
-    part1: common::PuzzleResult,
-    part2: common::PuzzleResult,
+    part1: PuzzleResult,
+    part2: PuzzleResult,
 }
 
 #[main]
@@ -33,13 +34,12 @@ async fn main() -> Result<(), String> {
 
     if args.day == 0 {
         // solve all implemented days
-        for day in 1..=1 {
+        for day in 1..=2 {
             let input_puzzle_result = fetch_input_data(args.year, day, &args.token).await;
             if input_puzzle_result.is_err() {
                 return Err(input_puzzle_result.err().unwrap());
             }
             let input_puzzle = input_puzzle_result.ok().unwrap();
-            print!("Solving day {}: ", day);
             let result = solve_day(day, &input_puzzle)?;
             println!("{:?}", result);
         }
@@ -60,8 +60,13 @@ fn solve_day(day: u8, input_data: &str) -> Result<DayResult, String> {
     match day {
         1 => Ok(DayResult {
             day,
-            part1: day1::part1(&input_data),
-            part2: day1::part2(&input_data),
+            part1: PuzzleResult::Number(day01::part1(&input_data)),
+            part2: PuzzleResult::Number(day01::part2(&input_data)),
+        }),
+        2 => Ok(DayResult {
+            day,
+            part1: PuzzleResult::Number(day02::part1(&input_data)),
+            part2: PuzzleResult::Number(day02::part2(&input_data)),
         }),
         _ => Err(String::from("invalid day")),
     }
