@@ -1,7 +1,8 @@
 use clap::Parser;
 use reqwest::header::COOKIE;
 use tokio::main;
-use aoc::{common, day1, day02};
+pub mod aoc;
+use aoc::{day1, day02};
 use crate::aoc::common::PuzzleResult;
 
 #[derive(Parser, Debug)]
@@ -20,8 +21,8 @@ struct Args {
 #[allow(dead_code)]
 struct DayResult {
     day: u8,
-    part1: common::PuzzleResult,
-    part2: common::PuzzleResult,
+    part1: PuzzleResult,
+    part2: PuzzleResult,
 }
 
 #[main]

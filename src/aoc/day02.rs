@@ -1,5 +1,4 @@
 use std::cmp;
-use clap::builder::TypedValueParser;
 
 pub fn part1(input: &str) -> u32 {
     input.split("\n").fold(0, |mut sum, line| {
@@ -10,14 +9,14 @@ pub fn part1(input: &str) -> u32 {
                 Some((c, "blue")) => c.parse::<u32>().unwrap_or(99) <= 14,
                 _ => false
             }) {
-            sum += game.trim().split_once(" ").and_then(|(a, b)| Some(b.parse::<u32>().unwrap_or(0))).unwrap_or(0);
+            sum += game.trim().split_once(" ").and_then(|(_, b)| Some(b.parse::<u32>().unwrap_or(0))).unwrap_or(0);
         }
         sum
     })
 }
 
 pub fn part2(input: &str) -> u32 {
-    input.split("\n").fold(0, |mut sum, line| {
+    input.split("\n").fold(0, |sum, line| {
         let Some((_, cubes)) = line.split_once(":") else { return sum; };
         let mut min = (0u32, 0u32, 0u32);
         cubes.split(";").flat_map(|x| x.split(",")).for_each(|chunk| match chunk.trim().split_once(" ") {
