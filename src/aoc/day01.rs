@@ -2,12 +2,12 @@ const NUMBERS: &'static [&'static str] = &["one", "two", "three", "four", "five"
 
 pub fn part1(input_data: &str) -> u32 {
     input_data.split('\n').fold(0, |sum, line| {
-        let (first, last) = line.chars().fold((0,0), |mut acc2, c| {
+        let (first, last) = line.chars().fold((0,0), |(mut first, mut last), c| {
             if c.is_numeric() {
-                acc2.1 = c.to_digit(10).unwrap_or(0);
-                if acc2.0 == 0 { acc2.0 = acc2.1; }
+                last = c.to_digit(10).unwrap_or(0);
+                if first == 0 { first = last; }
             }
-            acc2
+            (first, last)
         });
         sum + (first * 10 + last)
     })
