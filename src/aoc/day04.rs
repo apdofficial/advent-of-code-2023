@@ -7,11 +7,10 @@ struct Card {
 
 impl Card {
     pub fn new(line: &str) -> Option<Self> {
-        let Some((_, card)) = line.split_once(":") else { return None; };
-        let Some((winning_str, actual_str)) = card.split_once("|") else { return None; };
+        let (winning, actual) = line.split_once(":")?.1.split_once("|")?;
         return Some(Card {
-            winning: winning_str.split_whitespace().filter_map(|x| x.parse::<u32>().ok()).collect(),
-            actual: actual_str.split_whitespace().filter_map(|x| x.parse::<u32>().ok()).collect(),
+            winning: winning.split_whitespace().filter_map(|x| x.parse::<u32>().ok()).collect(),
+            actual: actual.split_whitespace().filter_map(|x| x.parse::<u32>().ok()).collect(),
         });
     }
 
@@ -25,15 +24,19 @@ impl Card {
 }
 
 pub fn part1(input: &str) -> u32 {
-    input.split("\n").filter_map(Card::new).map(|card| card.geometric_points()).sum()
+    input.split("\n").filter_map(Card::new)
+        .map(|card| card.geometric_points())
+        .sum()
 }
 
 pub fn part2(input: &str) -> u32 {
-    let cards = input.split("\n").filter_map(Card::new).map(|card| card.count_matches()).collect_vec();
+    let cards = input.split("\n").filter_map(Card::new)
+        .map(|card| card.count_matches())
+        .collect_vec();
     let mut card_count = vec![1; cards.len()];
     for i in 0..cards.len() {
-        for k in i..i + cards[i]{
-            card_count[k+1] += card_count[i];
+        for k in i..i + cards[i] {
+            card_count[k + 1] += card_count[i];
         }
     }
     card_count.iter().sum()
