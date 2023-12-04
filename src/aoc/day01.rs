@@ -39,8 +39,17 @@ pub fn part2(input_data: &str) -> u32 {
 mod tests {
     use crate::aoc::day01;
 
-    const INPUT_1: &str = "1abc2\npqr3stu8vwx\na1b2c3d4e5f\ntreb7uchet";
-    const INPUT_2: &str = "two1nine\neightwothree\nabcone2threexyz\nxtwone3four\n4nineeightseven2\nzoneight234\n7pqrstsixteen";
+    const INPUT_1: &str = "1abc2
+pqr3stu8vwx
+a1b2c3d4e5f
+treb7uchet";
+    const INPUT_2: &str = "two1nine
+eightwothree
+abcone2threexyz
+xtwone3four
+4nineeightseven2
+zoneight234
+7pqrstsixteen";
 
     #[test]
     fn part1() { assert_eq!(day01::part1(INPUT_1), 142); }
