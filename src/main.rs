@@ -2,7 +2,7 @@ use clap::Parser;
 use reqwest::header::COOKIE;
 use tokio::main;
 pub mod aoc;
-use aoc::{day01, day02, day03};
+use aoc::{day01, day02, day03, day04};
 use crate::aoc::common::PuzzleResult;
 
 #[derive(Parser, Debug)]
@@ -34,7 +34,7 @@ async fn main() -> Result<(), String> {
 
     if args.day == 0 {
         // solve all implemented days
-        for day in 1..=3 {
+        for day in 1..=4 {
             let input_puzzle_result = fetch_input_data(args.year, day, &args.token).await;
             if input_puzzle_result.is_err() {
                 return Err(input_puzzle_result.err().unwrap());
@@ -72,6 +72,11 @@ fn solve_day(day: u8, input_data: &str) -> Result<DayResult, String> {
             day,
             part1: PuzzleResult::Number(day03::part1(&input_data)),
             part2: PuzzleResult::Number(day03::part2(&input_data)),
+        }),
+        4 => Ok(DayResult {
+            day,
+            part1: PuzzleResult::Number(day04::part1(&input_data)),
+            part2: PuzzleResult::Number(day04::part2(&input_data)),
         }),
         _ => Err(String::from("invalid day")),
     }
