@@ -1,21 +1,21 @@
 const NUMBERS: &'static [&'static str] = &["one", "two", "three", "four", "five", "six", "seven", "eight", "nine"];
 
 pub fn part1(input_data: &str) -> u32 {
-    input_data.split('\n').fold(0, |acc1, line| {
-        let (first, last) = line.chars().fold((0,0), |mut acc2, c| {
+    input_data.split('\n').fold(0, |sum, line| {
+        let (first, last) = line.chars().fold((0,0), |(mut first, mut last), c| {
             if c.is_numeric() {
-                acc2.1 = c.to_digit(10).unwrap_or(0);
-                if acc2.0 == 0 { acc2.0 = acc2.1; }
+                last = c.to_digit(10).unwrap_or(0);
+                if first == 0 { first = last; }
             }
-            acc2
+            (first, last)
         });
-        acc1 + (first * 10 + last)
+        sum + (first * 10 + last)
     })
 }
 
 pub fn part2(input_data: &str) -> u32 {
-    input_data.split('\n').fold(0, |acc1, line| {
-        let(first, last) = (0..line.len()).fold((0,0), |mut acc2, start| {
+    input_data.split('\n').fold(0, |sum, line| {
+        let(first, last) = (0..line.len()).fold((0,0), | (mut first, mut last), start| {
             let mut digit = if line.chars().nth(start).unwrap_or('-').is_numeric() {
                 line.chars().nth(start).unwrap_or('-').to_digit(10).unwrap_or(0)
             } else { 0 };
@@ -23,12 +23,12 @@ pub fn part2(input_data: &str) -> u32 {
                 if line[start..line.len()].starts_with(num) { digit = (i as u32) + 1; }
             }
             if digit != 0 {
-                acc2.1 = digit;
-                if acc2.0 == 0{ acc2.0 = acc2.1; }
+                last = digit;
+                if first == 0 { first = last; }
             }
-            acc2
+            (first, last)
         });
-        acc1 + (first * 10 + last)
+        sum + (first * 10 + last)
     })
 }
 
