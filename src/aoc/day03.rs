@@ -2,6 +2,10 @@ use std::ops::{AddAssign, Range};
 use itertools::Itertools;
 use regex::{Match, Regex};
 
+const GEAR_RE: &str = r"[*]";
+const NUMBER_RE: &str = r"[0-9]+";
+const SYMBOL_RE: &str = r"[^0-9.]";
+
 struct Schematics {
     lines: Vec<String>,
 }
@@ -41,8 +45,8 @@ impl Schematics {
 }
 pub fn part1(input: &str) -> u32 {
     let schematics = Schematics::new(input);
-    schematics.fold(r"[0-9]+", 0, |mut sum, line_nr, m| {
-        let matches = schematics.find_neighbours(r"[^0-9.]", line_nr, m);
+    schematics.fold(NUMBER_RE, 0, |mut sum, line_nr, m| {
+        let matches = schematics.find_neighbours(SYMBOL_RE, line_nr, m);
         if matches.len() > 0 {
             sum += m.as_str().parse::<u32>().unwrap_or(0);
         }
@@ -52,8 +56,8 @@ pub fn part1(input: &str) -> u32 {
 
 pub fn part2(input: &str) -> u32 {
     let schematics = Schematics::new(input);
-    schematics.fold(r"[*]", 0, |mut sum, line_nr, m| {
-        let matches = schematics.find_neighbours(r"[0-9]+", line_nr, m);
+    schematics.fold(GEAR_RE, 0, |mut sum, line_nr, m| {
+        let matches = schematics.find_neighbours(NUMBER_RE, line_nr, m);
         if matches.len() == 2 {
             sum += matches.get(0).unwrap().as_str().parse::<u32>().unwrap_or(0) *
                 matches.get(1).unwrap().as_str().parse::<u32>().unwrap_or(0);
