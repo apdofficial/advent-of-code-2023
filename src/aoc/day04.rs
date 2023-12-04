@@ -1,3 +1,4 @@
+use std::collections::VecDeque;
 use itertools::Itertools;
 
 struct Card {
@@ -30,16 +31,16 @@ pub fn part1(input: &str) -> u32 {
 }
 
 pub fn part2(input: &str) -> u32 {
-    let cards = input.split("\n").filter_map(Card::new)
+    let mut solved = VecDeque::<u32>::new(); // for dynamic programing
+    input.split("\n").filter_map(Card::new)
         .map(|card| card.count_matches())
-        .collect_vec();
-    let mut card_count = vec![1; cards.len()];
-    for i in 0..cards.len() {
-        for k in i..i + cards[i] {
-            card_count[k + 1] += card_count[i];
-        }
-    }
-    card_count.iter().sum()
+        .collect_vec()
+        .into_iter()
+        .rev()
+        .for_each(|count| {
+            solved.push_front(1 + (0..count).map(|i| solved[i]).sum::<u32>());
+        });
+    solved.iter().sum()
 }
 
 #[cfg(test)]
