@@ -1,8 +1,9 @@
+use std::time::{Duration, Instant};
 use clap::Parser;
 use reqwest::header::COOKIE;
 use tokio::main;
 pub mod aoc;
-use aoc::{day01, day02, day03, day04};
+use aoc::{day01, day02, day03, day04, day05};
 use crate::aoc::common::PuzzleResult;
 
 #[derive(Parser, Debug)]
@@ -23,6 +24,7 @@ struct DayResult {
     day: u8,
     part1: PuzzleResult,
     part2: PuzzleResult,
+    runtime: Duration
 }
 
 #[main]
@@ -34,7 +36,7 @@ async fn main() -> Result<(), String> {
 
     if args.day == 0 {
         // solve all implemented days
-        for day in 1..=4 {
+        for day in 1..=5 {
             let input_puzzle_result = fetch_input_data(args.year, day, &args.token).await;
             if input_puzzle_result.is_err() {
                 return Err(input_puzzle_result.err().unwrap());
@@ -58,26 +60,51 @@ async fn main() -> Result<(), String> {
 
 fn solve_day(day: u8, input_data: &str) -> Result<DayResult, String> {
     match day {
-        1 => Ok(DayResult {
-            day,
-            part1: PuzzleResult::Number(day01::part1(&input_data)),
-            part2: PuzzleResult::Number(day01::part2(&input_data)),
-        }),
-        2 => Ok(DayResult {
-            day,
-            part1: PuzzleResult::Number(day02::part1(&input_data)),
-            part2: PuzzleResult::Number(day02::part2(&input_data)),
-        }),
-        3 => Ok(DayResult {
-            day,
-            part1: PuzzleResult::Number(day03::part1(&input_data)),
-            part2: PuzzleResult::Number(day03::part2(&input_data)),
-        }),
-        4 => Ok(DayResult {
-            day,
-            part1: PuzzleResult::Number(day04::part1(&input_data)),
-            part2: PuzzleResult::Number(day04::part2(&input_data)),
-        }),
+        1 => {
+            let now = Instant::now();
+            Ok(DayResult {
+                day,
+                part1: PuzzleResult::Number(day01::part1(&input_data)),
+                part2: PuzzleResult::Number(day01::part2(&input_data)),
+                runtime: now.elapsed()
+            })
+        },
+        2 => {
+            let now = Instant::now();
+            Ok(DayResult {
+                day,
+                part1: PuzzleResult::Number(day02::part1(&input_data)),
+                part2: PuzzleResult::Number(day02::part2(&input_data)),
+                runtime: now.elapsed()
+            })
+        },
+        3 => {
+            let now = Instant::now();
+            Ok(DayResult {
+                day,
+                part1: PuzzleResult::Number(day03::part1(&input_data)),
+                part2: PuzzleResult::Number(day03::part2(&input_data)),
+                runtime: now.elapsed()
+            })
+        },
+        4 => {
+            let now = Instant::now();
+            Ok(DayResult {
+                day,
+                part1: PuzzleResult::Number(day04::part1(&input_data)),
+                part2: PuzzleResult::Number(day04::part2(&input_data)),
+                runtime: now.elapsed()
+            })
+        },
+        5 => {
+            let now = Instant::now();
+            Ok(DayResult {
+                day,
+                part1: PuzzleResult::Number(day05::part1(&input_data)),
+                part2: PuzzleResult::Number(day05::part2(&input_data)),
+                runtime: now.elapsed()
+            })
+        },
         _ => Err(String::from("invalid day")),
     }
 }
