@@ -1,7 +1,6 @@
 use std::time::{Duration, Instant};
 use clap::Parser;
 use reqwest::header::COOKIE;
-use std::time::{Duration, Instant};
 use tokio::main;
 pub mod aoc;
 use crate::aoc::common::PuzzleResult;
