@@ -1,3 +1,4 @@
+use std::time::{Duration, Instant};
 use clap::Parser;
 use reqwest::header::COOKIE;
 use std::time::{Duration, Instant};
