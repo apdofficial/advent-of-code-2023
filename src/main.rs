@@ -2,9 +2,7 @@ use std::time::{Duration, Instant};
 use clap::Parser;
 use reqwest::header::COOKIE;
 use tokio::main;
-
 pub mod aoc;
-
 use crate::aoc::common::PuzzleResult;
 use aoc::{day01, day02, day03, day04, day05, day06, day07};
 
@@ -106,7 +104,9 @@ fn solve_day(day: u8, input_data: &str) -> Result<DayResult, String> {
 
 async fn fetch_input_data(year: u16, day: u8, session_token: &str) -> Result<String, String> {
     let input = reqwest::Client::new()
-        .get(std::format!("https://adventofcode.com/{year}/day/{day}/input"))
+        .get(std::format!(
+            "https://adventofcode.com/{year}/day/{day}/input"
+        ))
         .header(COOKIE, format!("session={session_token}"))
         .send()
         .await
