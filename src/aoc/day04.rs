@@ -2,21 +2,21 @@ use std::collections::VecDeque;
 use itertools::Itertools;
 
 struct Card {
-    winning: Vec<u32>,
-    actual: Vec<u32>,
+    winning: Vec<u64>,
+    actual: Vec<u64>,
 }
 
 impl Card {
     pub fn new(line: &str) -> Option<Self> {
         let (winning, actual) = line.split_once(":")?.1.split_once("|")?;
         return Some(Card {
-            winning: winning.split_whitespace().filter_map(|x| x.parse::<u32>().ok()).collect(),
-            actual: actual.split_whitespace().filter_map(|x| x.parse::<u32>().ok()).collect(),
+            winning: winning.split_whitespace().filter_map(|x| x.parse::<u64>().ok()).collect(),
+            actual: actual.split_whitespace().filter_map(|x| x.parse::<u64>().ok()).collect(),
         });
     }
 
-    pub fn geometric_points(&self) -> u32 {
-        self.count_matches().checked_sub(1).and_then(|x| Some(u32::pow(2, x as u32))).unwrap_or(0)
+    pub fn geometric_points(&self) -> u64 {
+        self.count_matches().checked_sub(1).and_then(|x| Some(u64::pow(2, x as u32))).unwrap_or(0)
     }
 
     pub fn count_matches(&self) -> usize {
@@ -24,21 +24,21 @@ impl Card {
     }
 }
 
-pub fn part1(input: &str) -> u32 {
+pub fn part1(input: &str) -> u64 {
     input.split("\n").filter_map(Card::new)
         .map(|card| card.geometric_points())
         .sum()
 }
 
-pub fn part2(input: &str) -> u32 {
-    let mut solved = VecDeque::<u32>::new(); // for dynamic programing
+pub fn part2(input: &str) -> u64 {
+    let mut solved = VecDeque::<u64>::new(); // for dynamic programing
     input.split("\n").filter_map(Card::new)
         .map(|card| card.count_matches())
         .collect_vec()
         .into_iter()
         .rev()
         .for_each(|count| {
-            solved.push_front(1 + (0..count).map(|i| solved[i]).sum::<u32>());
+            solved.push_front(1 + (0..count).map(|i| solved[i]).sum::<u64>());
         });
     solved.iter().sum()
 }

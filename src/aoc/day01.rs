@@ -1,16 +1,16 @@
 const NUMBERS: &'static [&'static str] = &["one", "two", "three", "four", "five", "six", "seven", "eight", "nine"];
 
-struct Calibration{ val: u32 }
+struct Calibration{ val: u64 }
 
 impl Calibration {
     pub fn new(line: &str, consider_text: bool) -> Self {
-        let(first, last) = (0..line.len()).fold((0,0), | (mut first, mut last), start| {
+        let(first, last) = (0..line.len()).fold((0u64, 0u64), | (mut first, mut last), start| {
             let mut digit = if line.chars().nth(start).unwrap_or('-').is_numeric() {
-                line.chars().nth(start).unwrap_or('-').to_digit(10).unwrap_or(0)
+                line.chars().nth(start).unwrap_or('-').to_digit(10).unwrap_or(0) as u64
             } else { 0 };
             if consider_text {
                 for (i, num) in NUMBERS.iter().enumerate() {
-                    if line[start..line.len()].starts_with(num) { digit = (i as u32) + 1; }
+                    if line[start..line.len()].starts_with(num) { digit = (i as u64) + 1; }
                 }
             }
             if digit != 0 {
@@ -23,13 +23,13 @@ impl Calibration {
     }
 }
 
-pub fn part1(input_data: &str) -> u32 {
+pub fn part1(input_data: &str) -> u64 {
     input_data.split('\n').map(|line| Calibration::new(line, false))
         .map(|calibration| calibration.val)
         .sum()
 }
 
-pub fn part2(input_data: &str) -> u32 {
+pub fn part2(input_data: &str) -> u64 {
     input_data.split('\n').map(|line| Calibration::new(line, true))
         .map(|calibration| calibration.val)
         .sum()
