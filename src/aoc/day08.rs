@@ -80,6 +80,4 @@ XXX = (XXX, XXX)";
 
     #[test]
     fn part2() { assert_eq!(day08::part2(INPUT2), 6); }
-    // 4227523271 too low
-    // 3506423479
 }
