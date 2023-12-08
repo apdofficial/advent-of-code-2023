@@ -19,16 +19,3 @@ impl fmt::Debug for PuzzleResult {
         }
     }
 }
-
-impl std::iter::Sum<u32> for PuzzleResult {
-    fn sum<I>(iter: I) -> Self
-    where
-        I: Iterator<Item = u32>,
-    {
-        let mut result = 0;
-        for v in iter {
-            result += v;
-        }
-        PuzzleResult::Number(result)
-    }
-}
