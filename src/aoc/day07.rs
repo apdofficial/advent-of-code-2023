@@ -33,7 +33,7 @@ impl HandType {
 struct Hand {
     hand_type: HandType,
     cards: [char; 5],
-    bid: u32,
+    bid: u64,
 }
 
 impl Hand {
@@ -46,7 +46,7 @@ impl Hand {
         } else {
             HandType::new(cards)
         };
-        Some(Hand { hand_type, cards, bid: bid_str.parse::<u32>().ok()? })
+        Some(Hand { hand_type, cards, bid: bid_str.parse::<u64>().ok()? })
     }
 }
 
@@ -72,12 +72,12 @@ fn cmp(a: &Hand, b: &Hand, joker: bool) -> Ordering {
     Ordering::Equal
 }
 
-fn solve(input: &str, jack: bool) -> u32 {
+fn solve(input: &str, jack: bool) -> u64 {
     input.split('\n')
         .filter_map(|line| Hand::from_str(line, jack))
         .sorted_by(|a, b| cmp(a, b, jack))
         .enumerate()
-        .map(|(i, hand)| hand.bid * (i + 1) as u32)
+        .map(|(i, hand)| hand.bid * (i + 1) as u64)
         .sum()
 }
 

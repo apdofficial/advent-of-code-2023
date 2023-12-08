@@ -4,14 +4,14 @@ struct Race {
 }
 
 impl Race {
-    pub fn winning_combinations_count(&self) -> u32 {
+    pub fn winning_combinations_count(&self) -> u64 {
         (1..self.duration - 1)
             .filter(|x| (self.duration - x) * x > self.distance)
-            .count() as u32
+            .count() as u64
     }
 }
 
-pub fn part1(input: &str) -> u32 {
+pub fn part1(input: &str) -> u64 {
     let mut races: Vec<Race> = vec![];
     let Some((line1, line2)) = input.split_once("\n") else { return 0; };
     let Some(("Time", times)) = line1.split_once(":") else { return 0; };
@@ -28,7 +28,7 @@ pub fn part1(input: &str) -> u32 {
     races.iter().map(Race::winning_combinations_count).product()
 }
 
-pub fn part2(input: &str) -> u32 {
+pub fn part2(input: &str) -> u64 {
     let Some((line1, line2)) = input.split_once("\n") else { return 0; };
     let duration = line1
         .split_once(":")

@@ -43,24 +43,24 @@ impl Schematics {
         }
     }
 }
-pub fn part1(input: &str) -> u32 {
+pub fn part1(input: &str) -> u64 {
     let schematics = Schematics::new(input);
     schematics.fold(NUMBER_RE, 0, |mut sum, line_nr, m| {
         let matches = schematics.find_neighbours(SYMBOL_RE, line_nr, m);
         if matches.len() > 0 {
-            sum += m.as_str().parse::<u32>().unwrap_or(0);
+            sum += m.as_str().parse::<u64>().unwrap_or(0);
         }
         sum
     })
 }
 
-pub fn part2(input: &str) -> u32 {
+pub fn part2(input: &str) -> u64 {
     let schematics = Schematics::new(input);
     schematics.fold(GEAR_RE, 0, |mut sum, line_nr, m| {
         let matches = schematics.find_neighbours(NUMBER_RE, line_nr, m);
         if matches.len() == 2 {
-            sum += matches.get(0).unwrap().as_str().parse::<u32>().unwrap_or(0) *
-                matches.get(1).unwrap().as_str().parse::<u32>().unwrap_or(0);
+            sum += matches.get(0).unwrap().as_str().parse::<u64>().unwrap_or(0) *
+                matches.get(1).unwrap().as_str().parse::<u64>().unwrap_or(0);
         }
         sum
     })
