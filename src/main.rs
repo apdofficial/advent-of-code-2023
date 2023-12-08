@@ -6,6 +6,7 @@ pub mod aoc;
 use crate::aoc::common::PuzzleResult;
 use aoc::{day01, day02, day03, day04, day05, day06, day07, day08};
 
+
 #[derive(Parser, Debug)]
 struct Args {
     /// Year for which to solve the Advent of Code
