@@ -4,7 +4,7 @@ use reqwest::header::COOKIE;
 use tokio::main;
 pub mod aoc;
 use crate::aoc::common::PuzzleResult;
-use aoc::{day01, day02, day03, day04, day05, day06, day07, day08};
+use aoc::{day01, day02, day03, day04, day05, day06, day07, day08, day09};
 
 
 #[derive(Parser, Debug)]
@@ -103,6 +103,12 @@ fn solve_day(day: u8, input_data: &str) -> Result<DayResult, String> {
             day,
             part1: PuzzleResult::Number(day08::part1(&input_data)),
             part2: PuzzleResult::Number(day08::part2(&input_data)),
+            runtime: now.elapsed(),
+        }),
+        9 => Ok(DayResult {
+            day,
+            part1: PuzzleResult::Number(day09::part1(&input_data)),
+            part2: PuzzleResult::Number(day09::part2(&input_data)),
             runtime: now.elapsed(),
         }),
         _ => Err(String::from("invalid day")),

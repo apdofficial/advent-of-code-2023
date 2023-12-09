@@ -11,7 +11,7 @@ impl Race {
     }
 }
 
-pub fn part1(input: &str) -> u64 {
+pub fn part1(input: &str) -> i64 {
     let mut races: Vec<Race> = vec![];
     let Some((line1, line2)) = input.split_once("\n") else { return 0; };
     let Some(("Time", times)) = line1.split_once(":") else { return 0; };
@@ -25,10 +25,10 @@ pub fn part1(input: &str) -> u64 {
     distances.split_whitespace().enumerate().for_each(|(i, x)| {
         races[i].distance = x.parse::<u64>().unwrap_or(0);
     });
-    races.iter().map(Race::winning_combinations_count).product()
+    races.iter().map(Race::winning_combinations_count).product::<u64>() as i64
 }
 
-pub fn part2(input: &str) -> u64 {
+pub fn part2(input: &str) -> i64 {
     let Some((line1, line2)) = input.split_once("\n") else { return 0; };
     let duration = line1
         .split_once(":")
@@ -36,7 +36,7 @@ pub fn part2(input: &str) -> u64 {
     let distance = line2
         .split_once(":")
         .and_then(|(_, x)| x.replace(" ", "").replace("\n", "").parse::<u64>().ok()).unwrap_or(0);
-    Race { duration, distance }.winning_combinations_count()
+    Race { duration, distance }.winning_combinations_count() as i64
 }
 
 #[cfg(test)]

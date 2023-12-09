@@ -150,22 +150,22 @@ impl RangeSeeds {
     }
 }
 
-pub fn part1(input: &str) -> u64 {
+pub fn part1(input: &str) -> i64 {
     let seeds = ValueSeeds::new(input);
     let alamac = Alamac::new(input);
     seeds.seeds.into_par_iter()
         .map(|x| alamac.get_location(x))
         .min()
-        .unwrap_or(0) as u64
+        .unwrap_or(0) as i64
 }
 
-pub fn part2(input: &str) -> u64 {
+pub fn part2(input: &str) -> i64 {
     let seeds = RangeSeeds::new(input);
     let alamac = Alamac::new(input);
     seeds.seeds.into_par_iter()
         .flat_map(|range| range.clone().into_par_iter().map(|i| alamac.get_location(i)))
         .min()
-        .unwrap_or(0) as u64
+        .unwrap_or(0) as i64
 }
 
 #[cfg(test)]

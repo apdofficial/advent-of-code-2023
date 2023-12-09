@@ -24,13 +24,13 @@ impl Card {
     }
 }
 
-pub fn part1(input: &str) -> u64 {
+pub fn part1(input: &str) -> i64 {
     input.split("\n").filter_map(Card::new)
         .map(|card| card.geometric_points())
-        .sum()
+        .sum::<u64>() as i64
 }
 
-pub fn part2(input: &str) -> u64 {
+pub fn part2(input: &str) -> i64 {
     let mut solved = VecDeque::<u64>::new(); // for dynamic programing
     input.split("\n").filter_map(Card::new)
         .map(|card| card.count_matches())
@@ -40,7 +40,7 @@ pub fn part2(input: &str) -> u64 {
         .for_each(|count| {
             solved.push_front(1 + (0..count).map(|i| solved[i]).sum::<u64>());
         });
-    solved.iter().sum()
+    solved.iter().sum::<u64>() as i64
 }
 
 #[cfg(test)]
