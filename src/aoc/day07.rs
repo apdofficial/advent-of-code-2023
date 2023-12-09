@@ -81,9 +81,9 @@ fn solve(input: &str, jack: bool) -> u64 {
         .sum()
 }
 
-pub fn part1(input: &str) -> u64 { solve(input, false) }
+pub fn part1(input: &str) -> i64 { solve(input, false) as i64 }
 
-pub fn part2(input: &str) -> u64 { solve(input, true) }
+pub fn part2(input: &str) -> i64 { solve(input, true) as i64 }
 
 #[cfg(test)]
 mod tests {

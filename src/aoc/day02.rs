@@ -22,17 +22,17 @@ impl Game {
     }
 }
 
-pub fn part1(input: &str) -> u64 {
+pub fn part1(input: &str) -> i64 {
     input.split("\n").filter_map(Game::new)
         .filter(|g| g.red.iter().all(|&x| x <= 12) && g.green.iter().all(|&x| x <= 13) && g.blue.iter().all(|&x| x <= 14))
         .map(|g| g.id)
-        .sum()
+        .sum::<u64>() as i64
 }
 
-pub fn part2(input: &str) -> u64 {
+pub fn part2(input: &str) -> i64 {
     input.split("\n").filter_map(Game::new)
         .map(|g| g.red.iter().max().unwrap_or(&0) * g.green.iter().max().unwrap_or(&0) * g.blue.iter().max().unwrap_or(&0))
-        .sum()
+        .sum::<u64>() as i64
 }
 
 #[cfg(test)]

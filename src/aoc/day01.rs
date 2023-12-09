@@ -23,16 +23,16 @@ impl Calibration {
     }
 }
 
-pub fn part1(input_data: &str) -> u64 {
+pub fn part1(input_data: &str) -> i64 {
     input_data.split('\n').map(|line| Calibration::new(line, false))
         .map(|calibration| calibration.val)
-        .sum()
+        .sum::<u64>() as i64
 }
 
-pub fn part2(input_data: &str) -> u64 {
+pub fn part2(input_data: &str) -> i64 {
     input_data.split('\n').map(|line| Calibration::new(line, true))
         .map(|calibration| calibration.val)
-        .sum()
+        .sum::<u64>() as i64
 }
 
 #[cfg(test)]
