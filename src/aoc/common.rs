@@ -3,7 +3,7 @@ use std::fmt::Formatter;
 
 #[derive(Ord, PartialOrd, Eq, PartialEq)]
 pub enum PuzzleResult {
-    Number(u64),
+    Number(i64),
     Text(String),
 }
 

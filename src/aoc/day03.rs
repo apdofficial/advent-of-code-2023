@@ -43,7 +43,7 @@ impl Schematics {
         }
     }
 }
-pub fn part1(input: &str) -> u64 {
+pub fn part1(input: &str) -> i64 {
     let schematics = Schematics::new(input);
     schematics.fold(NUMBER_RE, 0, |mut sum, line_nr, m| {
         let matches = schematics.find_neighbours(SYMBOL_RE, line_nr, m);
@@ -51,10 +51,10 @@ pub fn part1(input: &str) -> u64 {
             sum += m.as_str().parse::<u64>().unwrap_or(0);
         }
         sum
-    })
+    }) as i64
 }
 
-pub fn part2(input: &str) -> u64 {
+pub fn part2(input: &str) -> i64 {
     let schematics = Schematics::new(input);
     schematics.fold(GEAR_RE, 0, |mut sum, line_nr, m| {
         let matches = schematics.find_neighbours(NUMBER_RE, line_nr, m);
@@ -63,7 +63,7 @@ pub fn part2(input: &str) -> u64 {
                 matches.get(1).unwrap().as_str().parse::<u64>().unwrap_or(0);
         }
         sum
-    })
+    })  as i64
 }
 
 #[cfg(test)]

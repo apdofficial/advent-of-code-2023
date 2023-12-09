@@ -40,18 +40,18 @@ impl Network {
     }
 }
 
-pub fn part1(input: &str) -> u64 {
+pub fn part1(input: &str) -> i64 {
     let Some(network) = Network::from_str(input) else { return 0; };
-    network.count_steps("AAA".into(), |x| x == "ZZZ")
+    network.count_steps("AAA".into(), |x| x == "ZZZ") as i64
 }
 
-pub fn part2(input: &str) -> u64 {
+pub fn part2(input: &str) -> i64 {
     let Some(network) = Network::from_str(input) else { return 0; };
     network.map
         .keys()
         .filter(|x| x.ends_with('A'))
         .map(|start| network.count_steps(start.into(), |end| end.ends_with('Z')))
-        .fold(1, num::integer::lcm)
+        .fold(1, num::integer::lcm) as i64
 }
 
 #[cfg(test)]
