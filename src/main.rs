@@ -131,7 +131,7 @@ fn solve_day(day: u8, input_data: &str) -> Result<DayResult, String> {
             part1: PuzzleResult::Number(day12::part1(&input_data)),
             part2: PuzzleResult::Number(day12::part2(&input_data)),
             runtime: now.elapsed(),
-        })
+        }),
         _ => Err(String::from("invalid day")),
     }
 }
