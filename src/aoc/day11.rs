@@ -15,7 +15,7 @@ impl Point {
 }
 
 pub fn part1(input: &str) -> i64 {
-    let map = CharMap::from_str(input, '\n');
+    let Some(map) = CharMap::from_str(input) else { return 0; };
     let empty_rows = map.filter_rows(|&x| x == '.');
     let empty_cols = map.filter_cols(|&x| x == '.');
     let galaxies = map.find_all(|&x| x == '#')
@@ -30,7 +30,7 @@ pub fn part1(input: &str) -> i64 {
 }
 
 pub fn part2(input: &str) -> i64 {
-    let map = CharMap::from_str(input, '\n');
+    let Some(map) = CharMap::from_str(input) else { return 0; };
     let empty_rows = map.filter_rows(|&x| x == '.');
     let empty_cols = map.filter_cols(|&x| x == '.');
     let galaxies = map.find_all(|&x| x == '#')
