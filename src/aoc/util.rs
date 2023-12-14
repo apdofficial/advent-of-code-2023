@@ -1,4 +1,4 @@
-use std::ops::{Add, Sub};
+use std::ops::{Add, Index, IndexMut, Range, Sub};
 use itertools::Itertools;
 use num::abs;
 #[allow(dead_code)]
@@ -55,6 +55,11 @@ pub(crate) struct Path {
 }
 
 #[allow(dead_code)]
+pub fn count_diff<T: PartialEq>(a: &Vec<T>, b: &Vec<T>) -> usize {
+     a.iter().zip(b.iter()).filter(|&(a, b)| a != b).count()
+}
+
+#[allow(dead_code)]
 impl Path {
 
     pub(crate)  fn new(start: Point) -> Self {
@@ -96,11 +101,36 @@ pub(crate) struct CharMap {
     map: Vec<Vec<char>>
 }
 
+impl Index<usize> for CharMap {
+    type Output = Vec<char>;
+    fn index(&self, i: usize) -> &Vec<char> {
+        &self.map[i]
+    }
+}
+
+impl IndexMut<usize> for CharMap {
+    fn index_mut(&mut self, i: usize) -> &mut Vec<char> {
+        &mut self.map[i]
+    }
+}
+
 #[allow(dead_code)]
 impl CharMap {
 
-    pub(crate)  fn from_str(input: &str, delimiter: char) -> Self {
-        CharMap { map: input.split(delimiter).map(|x| x.chars().collect_vec()).collect() }
+    pub(crate)  fn from_str(input: &str) -> Option<Self> {
+        let input = input.trim();
+        if input.is_empty() { return None }
+        let map = CharMap {
+            map: input
+                .split('\n')
+                .map(|x| x.chars().collect_vec())
+                .collect()
+        };
+        if map.width() == 0 || map.map.iter().any(|x| x.len() == 0) {
+            None
+        } else {
+            Some(map)
+        }
     }
 
     pub(crate) fn at(&self, point: &Point) -> Option<char> {
@@ -109,9 +139,25 @@ impl CharMap {
         Some(self.map[point.y as usize][point.x as usize])
     }
 
-    pub(crate) fn width(&self) -> usize { self.map.len() }
+    pub(crate) fn col_at(&self, col: usize) -> Vec<char> {
+        let mut cols: Vec<char> = vec![];
+        for row in 0..self.map.len() {
+            cols.push(self.map[row][col]);
+        }
+        cols
+    }
 
-    pub(crate) fn height(&self) -> usize { self.map.first().unwrap_or(&vec![]).len() }
+    pub(crate) fn row_at(&self, row: usize) -> &Vec<char> {
+        &self.map[row]
+    }
+
+    pub(crate) fn width_range(&self) -> Range<usize> { 0..self.width() }
+
+    pub(crate) fn width(&self) -> usize { self.map.first().unwrap_or(&vec![]).len() }
+
+    pub(crate) fn height_range(&self) -> Range<usize> { 0..self.height() }
+
+    pub(crate) fn height(&self) -> usize { self.map.len() }
 
     pub(crate) fn filter_rows(&self, pred: fn(&char) -> bool) -> Vec<i64> {
         self.map
@@ -121,6 +167,7 @@ impl CharMap {
             .map(|(i, _)| i as i64)
             .collect_vec()
     }
+
 
     pub(crate) fn filter_cols(&self, pred: fn(&char) -> bool) -> Vec<i64> {
         let mut cols: Vec<i64> = vec![];

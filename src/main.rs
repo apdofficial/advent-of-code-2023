@@ -6,7 +6,7 @@ pub mod aoc;
 use crate::aoc::common::PuzzleResult;
 use aoc::{
     day01, day02, day03, day04, day05, day06,
-    day07, day08, day09, day10, day11, day12
+    day07, day08, day09, day10, day11, day12, day13
 };
 
 
@@ -130,6 +130,12 @@ fn solve_day(day: u8, input_data: &str) -> Result<DayResult, String> {
             day,
             part1: PuzzleResult::Number(day12::part1(&input_data)),
             part2: PuzzleResult::Number(day12::part2(&input_data)),
+            runtime: now.elapsed(),
+        }),
+        13 => Ok(DayResult {
+            day,
+            part1: PuzzleResult::Number(day13::part1(&input_data)),
+            part2: PuzzleResult::Number(day13::part2(&input_data)),
             runtime: now.elapsed(),
         }),
         _ => Err(String::from("invalid day")),

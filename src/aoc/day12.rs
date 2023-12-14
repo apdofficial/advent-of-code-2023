@@ -1,5 +1,4 @@
 use std::collections::HashMap;
-use std::ops::Not;
 use itertools::Itertools;
 
 const DAMAGED: char = '#';
