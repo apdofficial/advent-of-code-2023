@@ -41,7 +41,7 @@ async fn main() -> Result<(), String> {
     }
     if args.day == 0 {
         // solve all implemented days
-        for day in 1..=13 {
+        for day in 1..=14 {
             let input_puzzle_result = fetch_input_data(args.year, day, &args.token).await;
             if input_puzzle_result.is_err() { return Err(input_puzzle_result.err().unwrap()); }
             let input_puzzle = input_puzzle_result.ok().unwrap();
