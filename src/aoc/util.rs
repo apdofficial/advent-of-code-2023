@@ -1,4 +1,4 @@
-use std::ops::{Add, Index, IndexMut, Range, Sub};
+use std::ops::{Add, Index, IndexMut, Sub};
 use itertools::Itertools;
 use num::abs;
 #[allow(dead_code)]
@@ -97,6 +97,7 @@ impl Path {
 }
 
 #[allow(dead_code)]
+#[derive(Eq, Hash, PartialEq)]
 pub(crate) struct CharMap {
     map: Vec<Vec<char>>
 }
@@ -117,7 +118,7 @@ impl IndexMut<usize> for CharMap {
 #[allow(dead_code)]
 impl CharMap {
 
-    pub(crate)  fn from_str(input: &str) -> Option<Self> {
+    pub(crate) fn from_str(input: &str) -> Option<Self> {
         let input = input.trim();
         if input.is_empty() { return None }
         let map = CharMap {
@@ -147,17 +148,26 @@ impl CharMap {
         cols
     }
 
+    pub(crate) fn clone(&self) -> Self {
+        CharMap { map: self.map.iter().map(|x| x.clone()).collect_vec() }
+    }
+
     pub(crate) fn row_at(&self, row: usize) -> &Vec<char> {
         &self.map[row]
     }
 
-    pub(crate) fn width_range(&self) -> Range<usize> { 0..self.width() }
-
     pub(crate) fn width(&self) -> usize { self.map.first().unwrap_or(&vec![]).len() }
 
-    pub(crate) fn height_range(&self) -> Range<usize> { 0..self.height() }
-
     pub(crate) fn height(&self) -> usize { self.map.len() }
+
+    pub(crate) fn print(&self) {
+        for row in 0..self.height() {
+            for col in 0..self.width() {
+                print!("{}", self[row][col])
+            }
+            println!()
+        }
+    }
 
     pub(crate) fn filter_rows(&self, pred: fn(&char) -> bool) -> Vec<i64> {
         self.map
@@ -194,5 +204,16 @@ impl CharMap {
             }
         }
         points
+    }
+
+    pub(crate) fn rotate_clockwise(&mut self) {
+        self.transpose();
+        (0..self.height()).for_each(|i| self.map[i].reverse());
+    }
+
+    pub(super) fn transpose(&mut self) {
+        self.map = (0..self.map[0].len())
+            .map(|i| self.map.iter().map(|inner| inner[i].clone()).collect::<Vec<char>>())
+            .collect();
     }
 }
